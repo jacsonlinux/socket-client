@@ -1,7 +1,8 @@
 const net = require('net');
 const si = require('systeminformation');
 const client = new net.Socket();
-async function getDataSystem() {
+
+const getDataSystem = async () => {
     console.log('Getting static system data...');
     try {
         let data = await si.getStaticData();
@@ -10,8 +11,9 @@ async function getDataSystem() {
     } catch (error) {
         return console.error(error);
     }
-}
-async function getDataSystemDynamic() {
+};
+
+const getDataSystemDynamic = async () => {
     console.log('Getting dynamic system data...');
     try {
         let data = await si.getDynamicData();
@@ -20,11 +22,37 @@ async function getDataSystemDynamic() {
     } catch (error) {
         return console.error(error);
     }
-}
-client.connect(1983, '192.168.1.217', () => {
-    console.log('TCP connection established with the server.');
-    getDataSystem().then(res => {
-        console.log('OK');
-        client.write(JSON.stringify(res));
-    }).catch(error => console.error(error));
-});
+};
+
+const connect = () => {
+
+    client.connect(1983, 'localhost', () => {
+        console.log('TCP connection established with the server.');
+        getDataSystem().then(res => {
+            console.log('OK');
+            client.write(JSON.stringify(res));
+        }).catch(error => console.error(error));
+    });
+
+    client.on("close", () => {
+        console.log("Connection closed");
+        reconnect();
+    });
+
+    client.on("end", () => {
+        console.log("Connection ended");
+        reconnect();
+    });
+
+    client.on("error", console.error);
+
+};
+
+const reconnect = () => {
+    setTimeout(() => {
+        client.removeAllListeners();
+        connect();
+    }, 1000);
+};
+
+connect()

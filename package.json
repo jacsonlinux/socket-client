@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/jacsonlinux/socket-client#readme",
   "dependencies": {
-    "systeminformation": "^4.21.1"
+    "systeminformation": "^5.6.10"
   }
 }
