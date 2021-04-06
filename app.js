@@ -24,7 +24,20 @@ const getDataSystemDynamic = async () => {
     }
 };
 
+const reconnect = reject => {
+    if (reject !== 'true') {
+        setTimeout(() => {
+            client.removeAllListeners();
+            connect();
+        }, 1000);
+    }
+};
+
 const connect = () => {
+
+    console.log('Connecting...')
+
+    let reject;
 
     client.connect(1983, 'localhost', () => {
         console.log('TCP connection established with the server.');
@@ -34,25 +47,15 @@ const connect = () => {
         }).catch(error => console.error(error));
     });
 
+    client.on('data', chunk => {reject = JSON.parse(chunk); console.log('Rejected')} )
+
     client.on("close", () => {
         console.log("Connection closed");
-        reconnect();
-    });
-
-    client.on("end", () => {
-        console.log("Connection ended");
-        reconnect();
+        reconnect(reject);
     });
 
     client.on("error", console.error);
 
 };
 
-const reconnect = () => {
-    setTimeout(() => {
-        client.removeAllListeners();
-        connect();
-    }, 1000);
-};
-
-connect()
+connect();
