@@ -1,8 +1,9 @@
-SOCKET-CLIENT
+# SOCKET-CLIENT
 
-IFBA - Campus Porto Seguro
+**IFBA - Campus Porto Seguro**
 
---- Configuração para Windows ---
+###### Configuração para Windows
+#
 
 Faça login no Windows como administrador
 
