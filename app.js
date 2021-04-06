@@ -2,6 +2,9 @@ const net = require('net');
 const si = require('systeminformation');
 const client = new net.Socket();
 
+const IP_SERVER = 'localhost';
+const PORT = '1983';
+
 const getDataSystem = async () => {
     console.log('Getting static system data...');
     try {
@@ -24,7 +27,7 @@ const getDataSystemDynamic = async () => {
     }
 };
 
-const reconnect = reject => {
+const reconnect = async reject => {
     if (reject !== 'true') {
         setTimeout(() => {
             client.removeAllListeners();
@@ -33,13 +36,11 @@ const reconnect = reject => {
     }
 };
 
-const connect = () => {
-
-    console.log('Connecting...')
+const connect = async () => {
 
     let reject;
 
-    client.connect(1983, 'localhost', () => {
+    client.connect(`${PORT}`, `${IP_SERVER}`, () => {
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
@@ -58,4 +59,4 @@ const connect = () => {
 
 };
 
-connect();
+connect().then(() => {console.log('Connecting...')});
