@@ -2,8 +2,8 @@ const net = require('net');
 const si = require('systeminformation');
 const client = new net.Socket();
 
-const IP_SERVER = 'localhost';
-const PORT = '1983';
+const IP_SERVER = '192.168.1.217';
+const PORT = 1983;
 
 const getDataSystem = async () => {
     console.log('Getting static system data...');
