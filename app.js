@@ -2,9 +2,6 @@ const net = require('net');
 const si = require('systeminformation');
 const client = new net.Socket();
 
-const IP_SERVER = '192.168.1.217';
-const PORT = 1983;
-
 const getDataSystem = async () => {
     console.log('Getting static system data...');
     try {
@@ -40,7 +37,7 @@ const connect = async () => {
 
     let reject;
 
-    client.connect(`${PORT}`, `${IP_SERVER}`, () => {
+    client.connect(1953, '192.168.1.217', () => {
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
@@ -48,7 +45,10 @@ const connect = async () => {
         }).catch(error => console.error(error));
     });
 
-    client.on('data', chunk => {reject = JSON.parse(chunk); console.log('Rejected')} )
+    client.on('data', chunk => {
+        reject = JSON.parse(`${chunk}`);
+        console.log('Rejected');
+    });
 
     client.on("close", () => {
         console.log("Connection closed");
