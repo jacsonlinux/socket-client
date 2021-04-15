@@ -41,7 +41,7 @@ const connect = async () => {
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
-            client.write(JSON.stringify(res)+'-J4C50N-');
+            client.write(JSON.stringify(res));
         }).catch(error => console.error(error));
     });
 
