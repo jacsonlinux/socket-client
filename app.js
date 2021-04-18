@@ -37,9 +37,7 @@ const connect = async () => {
 
     let reject;
 
-    client.setEncoding('utf8')
-
-    client.connect(1953, '192.168.43.142', () => {
+    client.connect(1953, '192.168.1.102', () => {
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
