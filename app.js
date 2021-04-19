@@ -37,7 +37,7 @@ const connect = async () => {
 
     let reject;
 
-    client.connect(1953, '192.168.43.142', () => {
+    client.connect(1953, '192.168.1.217', () => {
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
