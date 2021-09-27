@@ -34,31 +34,27 @@ const reconnect = async reject => {
 };
 
 const connect = async () => {
-
     let reject;
-
     client.connect(1953, '192.168.1.217', () => {
+        client.setKeepAlive(true, 5000);
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
             client.write(JSON.stringify(res));
+
         }).catch(error => console.error(error));
     });
-
     client.on('data', chunk => {
         reject = JSON.parse(`${chunk}`);
         console.log('Rejected');
     });
-
     client.on("close", () => {
         console.log("Connection closed");
         reconnect(reject);
     });
-
     client.on("error", (err) => {
         console.log(err);
     });
-
 };
 
 connect().then(() => {console.log('Connecting...')});
