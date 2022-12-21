@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const dir = 'C:\\socket-client';
+const dir = 'C:\\socketclient';
 
 if (!fs.existsSync(dir)){
     fs.mkdirSync(dir);
