@@ -1,12 +1,11 @@
 const si = require('systeminformation');
+const net = require('node:net');
+const dgram = require('node:dgram');
 
-const net = require('net');
-const dgram = require('dgram');
 const clientTCP = new net.Socket();
 const clientUDP = new dgram.createSocket('udp4');
-let refreshInterval;
 
-const message = new Buffer.alloc(1,'Server?', 'utf8');
+let refreshInterval = null;
 
 const getDataSystem = async () => {
     console.log('Getting static system data...');
@@ -30,7 +29,7 @@ const getDataSystemDynamic = async () => {
     }
 };
 
-const reconnect = (reject, server) => {
+const reconnect = (reject) => {
     console.log('Reconnecting...');
     if (reject === null) {
         clientTCP.removeAllListeners();
@@ -77,7 +76,7 @@ const connectTCP = (server) => {
     });
     clientTCP.on("close", () => {
         console.log("Connection closed");
-        reconnect(reject, server);
+        reconnect(reject);
     });
     clientTCP.on("error", (err) => {
         console.log(err);
