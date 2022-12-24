@@ -1,12 +1,12 @@
-const net = require('net');
 const si = require('systeminformation');
-const client = new net.Socket();
 
+const net = require('net');
 const dgram = require('dgram');
-const message = new Buffer.alloc(1,'Server?', 'utf8');
-const socketUDP = dgram.createSocket('udp4');
+const clientTCP = new net.Socket();
+const clientUDP = new dgram.createSocket('udp4');
+let refreshInterval;
 
-let server = null;
+const message = new Buffer.alloc(1,'Server?', 'utf8');
 
 const getDataSystem = async () => {
     console.log('Getting static system data...');
@@ -30,59 +30,58 @@ const getDataSystemDynamic = async () => {
     }
 };
 
-const reconnect = (reject) => {
+const reconnect = (reject, server) => {
     console.log('Reconnecting...');
     if (reject === null) {
-        client.removeAllListeners();
-        connectUDP();
+        clientTCP.removeAllListeners();
+        refreshInterval = setInterval(() => {
+            clientUDP.send(``, 0, 0, 22222, '255.255.255.255');
+            console.log('.')
+        }, 5000);
     }
 };
+
+const connectUDP = () => {
+    clientUDP.on('listening', () => {
+        console.log('listening UDP...');
+        clientUDP.setBroadcast(true);
+        refreshInterval = setInterval(() => {
+            clientUDP.send(``, 0, 0, 22222, '255.255.255.255');
+            console.log('.')
+        }, 5000);
+    });
+    clientUDP.on('message', (msg, server) => {
+        console.log(server);
+        clearInterval(refreshInterval);
+        setTimeout(() => {
+            connectTCP(server);
+        }, 5000)
+    });
+    clientUDP.bind(33333);
+}
 
 const connectTCP = (server) => {
     console.log('Connecting TCP...');
     let reject = null;
-    client.connect(11111, `${server.address}`, () => {
-        client.setKeepAlive(true, 5000);
+    clientTCP.connect(11111, `${server.address}`, () => {
+        clientTCP.setKeepAlive(true, 5000);
         console.log('TCP connection established with the server.');
         getDataSystem().then(res => {
             console.log('OK');
-            client.write(JSON.stringify(res));
+            clientTCP.write(JSON.stringify(res));
         }).catch(error => console.error(error));
     });
-    client.on('data', chunk => {
+    clientTCP.on('data', chunk => {
         reject = JSON.parse(`${chunk}`);
         console.log('Rejected');
     });
-    client.on("close", () => {
+    clientTCP.on("close", () => {
         console.log("Connection closed");
-        reconnect(reject);
+        reconnect(reject, server);
     });
-    client.on("error", (err) => {
+    clientTCP.on("error", (err) => {
         console.log(err);
     });
 };
 
-const connectUDP = () => {
-    let refreshInterval;
-    socketUDP.on('listening', () => {
-        console.log('listening UDP...');
-        socketUDP.setBroadcast(true);
-        refreshInterval = setInterval(() => {
-            socketUDP.send(message, 0, message.length, 22222, '255.255.255.255');
-            console.log('.')
-        }, 5000);
-    });
-
-    socketUDP.on('message', (message, remote) => {
-        console.log(remote, `${message}`);
-        clearInterval(refreshInterval);
-        setTimeout(() => {
-            connectTCP(remote);
-        }, 5000)
-    });
-
-}
-
 connectUDP();
-
-socketUDP.bind(33333);
