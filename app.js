@@ -32,30 +32,15 @@ const getDataSystemDynamic = async () => {
 
 const reconnect = (reject) => {
     console.log('Reconnecting...');
-    if (reject !== 'true') {
-        setTimeout(() => {
-            console.log('.')
-            client.removeAllListeners();
-            connect(server);
-        }, 1000);
+    if (reject === null) {
+        client.removeAllListeners();
+        connectUDP();
     }
 };
 
-socketUDP.on('listening', () => {
-    console.log('listening');
-    socketUDP.setBroadcast(true);
-    socketUDP.send(message, 0, message.length, 22222, '255.255.255.255');
-});
-
-socketUDP.on('message', (message, remote) => {
-    console.log(remote, `${message}`);
-    server = remote;
-    connect(server);
-});
-
-const connect = (server) => {
-    console.log('Connecting...');
-    let reject;
+const connectTCP = (server) => {
+    console.log('Connecting TCP...');
+    let reject = null;
     client.connect(11111, `${server.address}`, () => {
         client.setKeepAlive(true, 5000);
         console.log('TCP connection established with the server.');
@@ -77,21 +62,27 @@ const connect = (server) => {
     });
 };
 
+const connectUDP = () => {
+    let refreshInterval;
+    socketUDP.on('listening', () => {
+        console.log('listening UDP...');
+        socketUDP.setBroadcast(true);
+        refreshInterval = setInterval(() => {
+            socketUDP.send(message, 0, message.length, 22222, '255.255.255.255');
+            console.log('.')
+        }, 5000);
+    });
+
+    socketUDP.on('message', (message, remote) => {
+        console.log(remote, `${message}`);
+        clearInterval(refreshInterval);
+        setTimeout(() => {
+            connectTCP(remote);
+        }, 5000)
+    });
+
+}
+
+connectUDP();
+
 socketUDP.bind(33333);
-
-/*socketUDP.on('listening', () => {
-    console.log('listening');
-    socketUDP.setBroadcast(true);
-    socketUDP.send(message, 0, message.length, 22222, '255.255.255.255');
-    setInterval(() => {
-        console.log('.')
-    }, 5000);
-});
-
-socketUDP.on('message', (message, remote) => {
-    console.log(remote, `${message}`);
-    server = remote;
-    connect(server);
-});
-
-socketUDP.bind(33333);*/
