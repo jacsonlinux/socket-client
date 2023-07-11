@@ -4,6 +4,7 @@
 
 ###### Configuração para Windows
 #
+Obs:  lib systeminformation - última versão compatível com win7 é 5.12.13 
 
 ~~Faça login no Windows como administrador.~~
 

@@ -1,7 +1,7 @@
-const si = require('systeminformation');
-const net = require('node:net');
-const os = require('node:os');
-const dgram = require('node:dgram');
+const si= require('systeminformation');
+const net= require('node:net');
+const os= require('node:os');
+const dgram= require('node:dgram');
 
 // Criar instâncias dos clientes TCP e UDP
 const clientTCP = new net.Socket();
@@ -22,7 +22,7 @@ const calculateBroadcastAddress = (ipAddress, subnetMask) => {
 };
 
 // Função para obter os endereços de broadcast disponíveis nas interfaces de rede
-const getBroadcastAddresses = () => {
+const getBroadcastAddresses = ()=> {
     const interfaces = os.networkInterfaces();
     const broadcastAddresses = [];
 
@@ -39,7 +39,7 @@ const getBroadcastAddresses = () => {
 };
 
 // Função assíncrona para obter os dados estáticos do sistema
-const getDataSystem = async () => {
+const getDataSystem = async ()=> {
     console.log('Getting static system data...');
     try {
         let data = await si.getStaticData();
