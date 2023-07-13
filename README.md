@@ -1,46 +1,35 @@
 # SOCKET-CLIENT
 
-**IFBA - Campus Porto Seguro**
+## IFBA - Campus Porto Seguro
 
-# Configuração para Windows #
+### Configuração para Windows
 
-Obs:  lib systeminformation - última versão compatível com win7 é 5.12.13 
+Observações para compatibilidade com o Windows 7:
+- Node.js: 13.14.0
+- Systeminformation: 5.12.13
+- Node-windows: 1.0.0-beta.5
 
-Faça login no Windows como administrador.
+Para prosseguir, siga as instruções abaixo:
 
-Faça download do repositorio https://github.com/jacsonlinux/socket-client.
+1. Faça login no Windows como administrador.
+2. Faça o download do repositório [https://github.com/jacsonlinux/socket-client](https://github.com/jacsonlinux/socket-client).
+3. Descompacte o arquivo `socket-client-master.zip`.
+4. Abra o CMD na pasta descompactada (`socket-client-master`).
+5. Execute o seguinte comando:
+   ```
+   node script.js
+   ```
 
-Descompacte o arquivo socket-client-master.zip.
+Em seguida, execute os comandos abaixo no CMD, navegando até o diretório `C:/socket-client`:
 
-~~Dentro da pasta descompactada, abra o arquivo app.js, localize as constantes **IP_SERVER** e **PORT** substituindo-as pelo endereço e porta do servidor de distino.~~
+```
+npm i -g
+npm link node-windows
+node service.js
+```
 
-Abra o **CMD** na pasta descompactada(socket-client-master).
+No menu "INICIAR" do Windows, digite "services" e localize o serviço chamado "socket-client". Clique com o botão direito sobre ele e selecione "Propriedades".
 
-Execute o comando abaixo:
+Na janela que se abre, vá para a aba "Recuperação" e selecione a opção "Reiniciar o serviço" para as seguintes opções: "Primeira falha", "Segunda falha" e "Falhas posteriores".
 
-<ul>
-<li>node script.js</li>
-</ul>
-
-Ainda no CMD vá para o diretório **C:/socket-client**
-
-Execute os comandos abaixo:
-
-<ul>
-<li>npm i -g</li>
-<li>npm link node-windows</li>
-<li>node service.js</li>
-</ul>
-
-No menu **INICIAR** do Windows digite:
-
-**services**
-
-Localize o serviço chamado socket-client, clique com botão direito e selecione propriedades.
-
-Na janela que se abre localize a aba recuperação e selecione "reiniciar o serviço” para as opções:
-
-**Primeira falha, Segunda falhar e Falhas posteriores.**
-
-#
-###### **By J4c50nL1NUX**
+###### Por J4c50nL1NUX
