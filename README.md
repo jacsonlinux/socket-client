@@ -6,7 +6,7 @@
 #
 Obs:  lib systeminformation - última versão compatível com win7 é 5.12.13 
 
-~~Faça login no Windows como administrador.~~
+~~~~Faça login no Windows como administrador.~~
 
 ~~Faça download do repositorio https://github.com/jacsonlinux/socket-client.~~
 
@@ -16,7 +16,7 @@ Obs:  lib systeminformation - última versão compatível com win7 é 5.12.13
 
 ~~Abra o **CMD** na pasta descompactada(socketclient-master).~~
 
-~~Execute o comando abaixo:~~
+~~Execute o comando abaixo:~~~~
 
 <ul>
 <li>node script.js</li>
