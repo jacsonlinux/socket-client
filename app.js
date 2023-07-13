@@ -1,7 +1,7 @@
 const si= require('systeminformation');
-const net= require('node:net');
-const os= require('node:os');
-const dgram= require('node:dgram');
+const net= require('net');
+const os= require('os');
+const dgram= require('dgram');
 
 // Criar instâncias dos clientes TCP e UDP
 const clientTCP = new net.Socket();

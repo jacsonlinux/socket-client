@@ -10,7 +10,7 @@ Faça login no Windows como administrador.
 
 Faça download do repositorio https://github.com/jacsonlinux/socket-client.
 
-Descompacte o arquivo socketclient.zip.
+Descompacte o arquivo socket-client-master.zip.
 
 ~~Dentro da pasta descompactada, abra o arquivo app.js, localize as constantes **IP_SERVER** e **PORT** substituindo-as pelo endereço e porta do servidor de distino.~~
 
