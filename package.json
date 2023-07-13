@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/jacsonlinux/socket-client#readme",
   "dependencies": {
-    "systeminformation": "^5.17.3",
-    "node-windows": "^1.0.0-beta.8"
+    "systeminformation": "5.12.13",
+    "node-windows": "1.0.0-beta.5"
   }
 }
