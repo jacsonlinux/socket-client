@@ -34,7 +34,7 @@ const reconnect = (reject) => {
             console.log('.')
             clientTCP.removeAllListeners();
             connectTCP(`${server}`);
-        }, 1000);
+        }, 5000);
     }
 };
 
