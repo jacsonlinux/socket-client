@@ -1,8 +1,7 @@
 const si= require('systeminformation');
 const net= require('net');
-const os= require('os');
 
-serve = 'godzilla'
+server = 'godzilla'
 
 const clientTCP = new net.Socket();
 
@@ -30,8 +29,12 @@ const getDataSystemDynamic = async () => {
 
 const reconnect = (reject) => {
     console.log('Reconnecting...');
-    if (reject === null) {
-        clientTCP.removeAllListeners();
+    if (reject !== 'true') {
+        setTimeout(() => {
+            console.log('.')
+            clientTCP.removeAllListeners();
+            connectTCP(`${server}`);
+        }, 1000);
     }
 };
 
@@ -68,4 +71,4 @@ const connectTCP = (server) => {
     });
 };
 
-connectTCP('godzilla')
+connectTCP(`${server}`);
