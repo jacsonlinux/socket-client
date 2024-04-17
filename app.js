@@ -1,7 +1,7 @@
 const si= require('systeminformation');
 const net= require('net');
 
-server = 'godzilla'
+server = '10.14.0.24'
 
 const clientTCP = new net.Socket();
 
@@ -33,12 +33,12 @@ const reconnect = (reject) => {
         setTimeout(() => {
             console.log('.')
             clientTCP.removeAllListeners();
-            connectTCP(`${server}`);
+            connectTCP();
         }, 5000);
     }
 };
 
-const connectTCP = (server) => {
+const connectTCP = () => {
 
     console.log('Connecting TCP...');
 
@@ -71,4 +71,4 @@ const connectTCP = (server) => {
     });
 };
 
-connectTCP(`${server}`);
+connectTCP();
