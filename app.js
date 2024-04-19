@@ -1,8 +1,6 @@
 const si= require('systeminformation');
 const net= require('net');
 
-server = '10.14.0.24'
-
 const clientTCP = new net.Socket();
 
 const getDataSystem = async ()=> {
@@ -44,7 +42,7 @@ const connectTCP = () => {
 
     let reject = null;
 
-    clientTCP.connect(11111, `${server}`, () => {
+    clientTCP.connect(11111, '10.14.0.24', () => {
 
         clientTCP.setKeepAlive(true, 5000);
 
