@@ -44,7 +44,7 @@ const connectTCP = () => {
 
     clientTCP.connect(11111, '10.14.0.24', () => {
 
-        clientTCP.setKeepAlive(true, 5000);
+        //clientTCP.setKeepAlive(true, 5000);
 
         console.log('TCP connection established with the server.');
 
