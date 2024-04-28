@@ -1,4 +1,5 @@
 const si= require('systeminformation');
+
 const net= require('net');
 
 const client = new net.Socket();
@@ -46,14 +47,15 @@ const connect = () => {
 
     client.connect(11111, '10.14.0.24', () => {
 
-        client.setKeepAlive(true, 5000);
-
         console.log('Connection established with the server.');
 
-        getDataSystem().then(res => {
-            console.log('OK');
-            client.write(JSON.stringify(res));
-        }).catch(error => console.error(error));
+        getDataSystem()
+            .then(res => {
+                client.write(JSON.stringify(res), 'utf8', () => {
+                    console.log('System static data sent.');
+                });
+            })
+            .catch(error => console.error(error));
     });
 
     client.on('data', chunk => {
