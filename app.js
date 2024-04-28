@@ -1,7 +1,7 @@
 const si= require('systeminformation');
 const net= require('net');
 
-const clientTCP = new net.Socket();
+const client = new net.Socket();
 
 const getDataSystem = async ()=> {
     console.log('Getting static system data...');
@@ -25,48 +25,50 @@ const getDataSystemDynamic = async () => {
     }
 };
 
-const reconnect = (reject) => {
-    console.log('Reconnecting...');
-    if (reject !== 'true') {
+const reconnect = (msn) => {
+    if (msn === 'REJECTED') {
+        console.log('Connection rejected by the server.');
+    } else {
         setTimeout(() => {
+            console.log('Reconnecting...');
             console.log('.')
-            clientTCP.removeAllListeners();
-            connectTCP();
+            client.removeAllListeners();
+            connect();
         }, 5000);
     }
 };
 
-const connectTCP = () => {
+const connect = () => {
 
-    console.log('Connecting TCP...');
+    console.log('Connecting...');
 
-    let reject = null;
+    let msn = null;
 
-    clientTCP.connect(11111, '10.14.0.24', () => {
+    client.connect(11111, '10.14.0.24', () => {
 
-        clientTCP.setKeepAlive(true, 5000);
+        client.setKeepAlive(true, 5000);
 
-        console.log('TCP connection established with the server.');
+        console.log('Connection established with the server.');
 
         getDataSystem().then(res => {
             console.log('OK');
-            clientTCP.write(JSON.stringify(res));
+            client.write(JSON.stringify(res));
         }).catch(error => console.error(error));
     });
 
-    clientTCP.on('data', chunk => {
-        reject = JSON.parse(`${chunk}`);
-        console.log('Rejected');
+    client.on('data', chunk => {
+        msn = chunk.toString();
+        console.log(chunk.toString());
     });
 
-    clientTCP.on("close", () => {
+    client.on("close", () => {
         console.log("Connection closed");
-        reconnect(reject);
+        reconnect(msn);
     });
 
-    clientTCP.on("error", (err) => {
+    client.on("error", (err) => {
         console.log(err);
     });
 };
 
-connectTCP();
+connect();
