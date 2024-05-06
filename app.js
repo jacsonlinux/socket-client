@@ -26,8 +26,8 @@ const getDataSystemDynamic = async () => {
     }
 };
 
-const reconnect = (msn) => {
-    if (msn === 'REJECTED') {
+const reconnect = (msg) => {
+    if (msg === 'REJECTED') {
         console.log('Connection rejected by the server.');
     } else {
         setTimeout(() => {
@@ -43,7 +43,7 @@ const connect = () => {
 
     console.log('Connecting...');
 
-    let msn = null;
+    let msg = null;
 
     client.connect(11111, '10.14.0.24', () => {
 
@@ -59,13 +59,13 @@ const connect = () => {
     });
 
     client.on('data', chunk => {
-        msn = chunk.toString();
+        msg = chunk.toString();
         console.log(chunk.toString());
     });
 
     client.on("close", () => {
         console.log("Connection closed");
-        reconnect(msn);
+        reconnect(msg);
     });
 
     client.on("error", (err) => {
