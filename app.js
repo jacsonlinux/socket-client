@@ -47,7 +47,7 @@ const connect = () => {
 
     client.connect(11111, '10.14.0.24', () => {
 
-        //client.setKeepAlive(true, 10000);
+        client.setKeepAlive(true, 10000);
 
         console.log('Connection established with the server.');
 
